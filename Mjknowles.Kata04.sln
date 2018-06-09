@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mjknowles.Kata04.Part1", "Part1\Mjknowles.Kata04.Part1\Mjknowles.Kata04.Part1.csproj", "{C05F8D91-211C-4718-96FD-67D8587E272B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Part1", "Part1", "{022FC313-03C8-46BF-8F2D-7F36FF8B2F32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mjknowles.Kata04.Part1.Tests", "Part1\Mjknowles.Kata04.Part1.Tests\Mjknowles.Kata04.Part1.Tests.csproj", "{5FBDD270-E85F-4FCD-88EF-FC498886374B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C05F8D91-211C-4718-96FD-67D8587E272B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C05F8D91-211C-4718-96FD-67D8587E272B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C05F8D91-211C-4718-96FD-67D8587E272B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C05F8D91-211C-4718-96FD-67D8587E272B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FBDD270-E85F-4FCD-88EF-FC498886374B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FBDD270-E85F-4FCD-88EF-FC498886374B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FBDD270-E85F-4FCD-88EF-FC498886374B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FBDD270-E85F-4FCD-88EF-FC498886374B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C05F8D91-211C-4718-96FD-67D8587E272B} = {022FC313-03C8-46BF-8F2D-7F36FF8B2F32}
+		{5FBDD270-E85F-4FCD-88EF-FC498886374B} = {022FC313-03C8-46BF-8F2D-7F36FF8B2F32}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC329A7D-6127-432B-B811-C114EE03390F}
+	EndGlobalSection
+EndGlobal
