@@ -11,13 +11,15 @@ namespace Mjknowles.Kata04.Part2.Services
     /// <summary>
     /// Encapsulates the logic needed to parse a season result data file for Kata04.
     /// </summary>
-    public class SeasonResultFileParser : ISeasonResultFileParser
+    public class SeasonResultFileParser : ISeasonResultProvider
     {
+        private readonly string _filePath;
         private readonly ISeasonResultFactory _seasonResultFactory;
         private readonly ILoggingService _loggingService;
 
-        public SeasonResultFileParser(ISeasonResultFactory seasonResultFactory, ILoggingService loggingService)
+        public SeasonResultFileParser(string filePath, ISeasonResultFactory seasonResultFactory, ILoggingService loggingService)
         {
+            _filePath = filePath;
             _seasonResultFactory = seasonResultFactory;
             _loggingService = loggingService;
         }
@@ -27,13 +29,13 @@ namespace Mjknowles.Kata04.Part2.Services
         /// </summary>
         /// <param name="filePath">Path of the data file containing season result records.</param>
         /// <returns>A collection of SeasonResult objects that were present in the input file.</returns>
-        public async Task<IEnumerable<ISeasonResult>> ParseSeasonResults(string filePath)
+        public async Task<IEnumerable<ISeasonResult>> GetSeasonResults()
         {
             var seasonResults = new List<ISeasonResult>();
 
             try
             {
-                using (var sr = new StreamReader(filePath))
+                using (var sr = new StreamReader(_filePath))
                 {
                     string line;
                     ISeasonResult parsedSeasonResult;

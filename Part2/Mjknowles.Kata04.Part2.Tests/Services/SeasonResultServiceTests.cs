@@ -11,7 +11,7 @@ namespace Mjknowles.Kata04.Part2.Tests.Services
     public class SeasonResultServiceTests
     {
         public readonly Mock<ILoggingService> _mockLoggingService;
-        public readonly Mock<ISeasonResultFileParser> _mockFileParser;
+        public readonly Mock<ISeasonResultProvider> _mockFileParser;
         private readonly List<ISeasonResult> _seasonResultData;
 
         public SeasonResultServiceTests()
@@ -21,8 +21,8 @@ namespace Mjknowles.Kata04.Part2.Tests.Services
             _mockLoggingService = new Mock<ILoggingService>();
             _mockLoggingService.Setup(m => m.Log(It.IsAny<string>(), It.IsAny<Exception>()));
 
-            _mockFileParser = new Mock<ISeasonResultFileParser>();
-            _mockFileParser.Setup(m => m.ParseSeasonResults(It.IsAny<string>())).Returns(Task.FromResult((IEnumerable<ISeasonResult>)_seasonResultData));
+            _mockFileParser = new Mock<ISeasonResultProvider>();
+            _mockFileParser.Setup(m => m.GetSeasonResults()).Returns(Task.FromResult((IEnumerable<ISeasonResult>)_seasonResultData));
         }
 
         [Fact]
@@ -36,8 +36,7 @@ namespace Mjknowles.Kata04.Part2.Tests.Services
 
             _seasonResultData.AddRange(new SeasonResult[] { result1, result2, result3, result4 });
 
-            var sut = new SeasonResultService(string.Empty,
-                _mockFileParser.Object, _mockLoggingService.Object);
+            var sut = new SeasonResultService(_mockFileParser.Object, _mockLoggingService.Object);
 
             var result = await sut.GetSeasonResultWithSmallestPointDifferential();
 
@@ -51,8 +50,7 @@ namespace Mjknowles.Kata04.Part2.Tests.Services
 
             _seasonResultData.Add(result1);
 
-            var sut = new SeasonResultService(string.Empty,
-                _mockFileParser.Object, _mockLoggingService.Object);
+            var sut = new SeasonResultService(_mockFileParser.Object, _mockLoggingService.Object);
 
             var result = await sut.GetSeasonResultWithSmallestPointDifferential();
 
@@ -63,8 +61,7 @@ namespace Mjknowles.Kata04.Part2.Tests.Services
         public async Task UnableToFindMinimumTempSpreadWhenNoDays()
         {
 
-            var sut = new SeasonResultService(string.Empty,
-                _mockFileParser.Object, _mockLoggingService.Object);
+            var sut = new SeasonResultService(_mockFileParser.Object, _mockLoggingService.Object);
 
             var result = await sut.GetSeasonResultWithSmallestPointDifferential();
 

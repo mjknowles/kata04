@@ -5,7 +5,11 @@ using System.Text;
 
 namespace Mjknowles.Kata04.Part3.Common.Services
 {
-    public abstract class IntDifferentiableFactory<T> : IDifferentiableFactory<T, int> where T : IDifferentiable<int>
+    /// <summary>
+    /// Abstract class that implements a template pattern
+    /// for creation of an object containing an integer difference.
+    /// </summary>
+    public abstract class IntDifferentiableFactory : IDifferentiableFactory<int>
     {
         protected readonly ILoggingService _loggingService;
 
@@ -17,7 +21,7 @@ namespace Mjknowles.Kata04.Part3.Common.Services
         /// <summary>
         /// Attempts to create a Differentiable object.
         /// </summary>
-        public virtual bool TryCreate(string id, string value1, string value2, T fallback, out T differentiable)
+        public bool TryCreate(string id, string value1, string value2, IDifferentiable<int> fallback, out IDifferentiable<int> differentiable)
         {
             bool successfulParse;
             bool createdSuccessfully = false;
@@ -44,6 +48,9 @@ namespace Mjknowles.Kata04.Part3.Common.Services
             return createdSuccessfully;
         }
 
-        public abstract bool TryCreate(string id, int value1, int value2, out T differentiable);
+        /// <summary>
+        /// Template method implementation for subclasses.
+        /// </summary>
+        public abstract bool TryCreate(string id, int value1, int value2, out IDifferentiable<int> differentiable);
     }
 }

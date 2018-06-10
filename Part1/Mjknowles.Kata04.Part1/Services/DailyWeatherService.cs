@@ -11,14 +11,12 @@ namespace Mjknowles.Kata04.Part1.Services
     /// </summary>
     public class DailyWeatherService : IDailyWeatherService
     {
-        private readonly string _filePath = string.Empty;
-        private readonly IDailyWeatherFileParser _fileParser;
+        private readonly IDailyWeatherProvider _fileParser;
         private readonly ILoggingService _loggingService;
         private IEnumerable<IDailyWeather> _dailyWeathers;
 
-        public DailyWeatherService(string dailyWeatherFilePath, IDailyWeatherFileParser fileParser, ILoggingService loggingService)
+        public DailyWeatherService(IDailyWeatherProvider fileParser, ILoggingService loggingService)
         {
-            _filePath = dailyWeatherFilePath;
             _fileParser = fileParser;
             _loggingService = loggingService;
         }
@@ -47,7 +45,7 @@ namespace Mjknowles.Kata04.Part1.Services
         {
             try
             {
-                _dailyWeathers = await _fileParser.ParseDailyWeathers(_filePath).ConfigureAwait(false);
+                _dailyWeathers = await _fileParser.GetDailyWeathers().ConfigureAwait(false);
             }
             catch(Exception ex)
             {

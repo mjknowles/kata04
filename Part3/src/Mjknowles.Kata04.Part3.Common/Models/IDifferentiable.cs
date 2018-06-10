@@ -4,9 +4,15 @@ using System.Text;
 
 namespace Mjknowles.Kata04.Part3.Common.Models
 {
+    /// <summary>
+    /// A class implementing this interface contains
+    /// data that is differentiable (meaning there is
+    /// some kind of numerical difference that can be
+    /// calculated from data within the class.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IDifferentiable<T>
     {
-        T Difference { get; }
         T AbsoluteDifference { get; }
     }
 }

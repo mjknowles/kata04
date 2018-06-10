@@ -8,7 +8,7 @@ namespace Mjknowles.Kata04.Part2
     public static class Program
     {
         private static ILoggingService _loggingService;
-        private static ISeasonResultFileParser _seasonResultFileParser;
+        private static ISeasonResultProvider _seasonResultFileParser;
 
         public static async Task Main()
         {
@@ -18,7 +18,7 @@ namespace Mjknowles.Kata04.Part2
             // For now, this file is added to the project and copied to the output 
             // directory for simplicity.
 
-            var seasonResultService = new SeasonResultService("football.dat", _seasonResultFileParser, _loggingService);
+            var seasonResultService = new SeasonResultService(_seasonResultFileParser, _loggingService);
 
             var smallestDifferntialResult = await seasonResultService.GetSeasonResultWithSmallestPointDifferential().ConfigureAwait(false);
 
@@ -40,7 +40,7 @@ namespace Mjknowles.Kata04.Part2
 
             _loggingService = new LoggingService();
             var seasonResultFactory = new SeasonResultFactory(_loggingService);
-            _seasonResultFileParser = new SeasonResultFileParser(seasonResultFactory, _loggingService);
+            _seasonResultFileParser = new SeasonResultFileParser("football.dat", seasonResultFactory, _loggingService);
         }
     }
 }

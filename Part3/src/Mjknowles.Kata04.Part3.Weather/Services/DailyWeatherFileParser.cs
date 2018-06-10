@@ -1,4 +1,5 @@
-﻿using Mjknowles.Kata04.Part3.Common.Services;
+﻿using Mjknowles.Kata04.Part3.Common.Models;
+using Mjknowles.Kata04.Part3.Common.Services;
 using Mjknowles.Kata04.Part3.Weather.Models;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,15 @@ namespace Mjknowles.Kata04.Part3.Weather.Services
     /// <summary>
     /// Encapsulates the logic needed to parse a weather data file for Kata04.
     /// </summary>
-    public class DailyWeatherFileParser : IDailyWeatherFileParser
+    public class DailyWeatherFileParser : IDifferentiableProvider<int>
     {
-        private readonly IDailyWeatherFactory _dailyWeatherFactory;
+        private readonly IDifferentiableFactory<int> _dailyWeatherFactory;
         private readonly ILoggingService _loggingService;
+        private readonly string _filePath;
 
-        public DailyWeatherFileParser(IDailyWeatherFactory dailyWeatherFactory, ILoggingService loggingService)
+        public DailyWeatherFileParser(string filePath, IDifferentiableFactory<int> dailyWeatherFactory, ILoggingService loggingService)
         {
+            _filePath = filePath;
             _dailyWeatherFactory = dailyWeatherFactory;
             _loggingService = loggingService;
         }
@@ -28,16 +31,16 @@ namespace Mjknowles.Kata04.Part3.Weather.Services
         /// </summary>
         /// <param name="filePath">Path of the data file containing daily weather records.</param>
         /// <returns>A collection of DailyWeather objects that were present in the input file.</returns>
-        public async Task<IEnumerable<IDailyWeather>> ParseFile(string filePath)
+        public async Task<IEnumerable<IDifferentiable<int>>> GetDifferentiables()
         {
-            var dailyWeathers = new List<IDailyWeather>();
+            var dailyWeathers = new List<IDifferentiable<int>>();
 
             try
             {
-                using (var sr = new StreamReader(filePath))
+                using (var sr = new StreamReader(_filePath))
                 {
                     string line;
-                    IDailyWeather parsedDailyWeather;
+                    IDifferentiable<int> parsedDailyWeather;
 
                     // Ignore header line and empty first row.
                     // This implementation assumes the application code will have
@@ -66,7 +69,7 @@ namespace Mjknowles.Kata04.Part3.Weather.Services
                         // that contains statistics for the month that we don't use.
 
                         if (weatherValues.Length > 2 && _dailyWeatherFactory.TryCreate(weatherValues[0],
-                            weatherValues[2], weatherValues[1], DailyWeather.EmptyDailyWeather, out parsedDailyWeather))
+                            weatherValues[2], weatherValues[1], DailyTemperature.EmptyDailyWeather, out parsedDailyWeather))
                         {
                             dailyWeathers.Add(parsedDailyWeather);
                         }

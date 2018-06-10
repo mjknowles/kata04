@@ -11,15 +11,13 @@ namespace Mjknowles.Kata04.Part2.Services
     /// </summary>
     public class SeasonResultService : ISeasonResultService
     {
-        private readonly string _filePath = string.Empty;
-        private readonly ISeasonResultFileParser _fileParser;
+        private readonly ISeasonResultProvider _seasonResultProvider;
         private readonly ILoggingService _loggingService;
         private IEnumerable<ISeasonResult> _seasonResults;
 
-        public SeasonResultService(string seasonResultFilePath, ISeasonResultFileParser fileParser, ILoggingService loggingService)
+        public SeasonResultService(ISeasonResultProvider seasonResultProvider, ILoggingService loggingService)
         {
-            _filePath = seasonResultFilePath;
-            _fileParser = fileParser;
+            _seasonResultProvider = seasonResultProvider;
             _loggingService = loggingService;
         }
 
@@ -47,7 +45,7 @@ namespace Mjknowles.Kata04.Part2.Services
         {
             try
             {
-                _seasonResults = await _fileParser.ParseSeasonResults(_filePath).ConfigureAwait(false);
+                _seasonResults = await _seasonResultProvider.GetSeasonResults().ConfigureAwait(false);
             }
             catch(Exception ex)
             {

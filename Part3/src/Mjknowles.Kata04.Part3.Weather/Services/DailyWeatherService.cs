@@ -10,10 +10,10 @@ namespace Mjknowles.Kata04.Part3.Weather.Services
     /// <summary>
     /// Used to encapsulate logic associated with the collection of daily weather records.
     /// </summary>
-    public class DailyWeatherService : IntDifferentiableService<IDailyWeather>, IDailyWeatherService
+    public class DailyWeatherService : IntDifferentiableService
     {
-        public DailyWeatherService(string dailyWeatherFilePath, IDailyWeatherFileParser fileParser, ILoggingService loggingService)
-            :base(dailyWeatherFilePath, fileParser, loggingService)
+        public DailyWeatherService(IDifferentiableProvider<int> dailyWeatherProvider, ILoggingService loggingService)
+            :base(dailyWeatherProvider, loggingService)
         {
         }
     }

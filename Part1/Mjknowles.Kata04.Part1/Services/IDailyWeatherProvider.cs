@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Mjknowles.Kata04.Part1.Services
 {
-    public interface IDailyWeatherFileParser
+    public interface IDailyWeatherProvider
     {
-        Task<IEnumerable<IDailyWeather>> ParseDailyWeathers(string filePath);
+        Task<IEnumerable<IDailyWeather>> GetDailyWeathers();
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Mjknowles.Kata04.Part2.Services
 {
-    public interface ISeasonResultFileParser
+    public interface ISeasonResultProvider
     {
-        Task<IEnumerable<ISeasonResult>> ParseSeasonResults(string filePath);
+        Task<IEnumerable<ISeasonResult>> GetSeasonResults();
     }
 }

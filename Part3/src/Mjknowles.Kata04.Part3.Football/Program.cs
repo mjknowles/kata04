@@ -10,7 +10,7 @@ namespace Mjknowles.Kata04.Part3.Football
     public static class Program
     {
         private static ILoggingService _loggingService;
-        private static ISeasonResultFileParser _seasonResultFileParser;
+        private static IDifferentiableProvider<int> _seasonGoalsResultFileParser;
 
         public static async Task Main()
         {
@@ -20,13 +20,14 @@ namespace Mjknowles.Kata04.Part3.Football
             // For now, this file is added to the project and copied to the output 
             // directory for simplicity.
 
-            var seasonResultService = new SeasonResultService("football.dat", _seasonResultFileParser, _loggingService);
+            var seasonResultService = new SeasonResultService(_seasonGoalsResultFileParser, _loggingService);
 
-            var programRunner = new ProgramRunner<ISeasonResult, int>(seasonResultService, SeasonResult.EmptySeasonResult);
+            var programRunner = new ConsoleDifferentiableDisplayer<int>(seasonResultService);
 
-            await programRunner.DisplayMinDifferential(
+            await programRunner.DisplayMinDifferential<ISeasonGoalsResult>(
                 (result) => $"Team with smallest point differential: { result.Team }",
-                "Unable to determine team with smallest point differential. See logs.");
+                "Unable to determine team with smallest point differential. See logs.",
+                SeasonGoalsResult.EmptySeasonResult).ConfigureAwait(false);
         }
 
         private static void BuildDependencies()
@@ -35,8 +36,8 @@ namespace Mjknowles.Kata04.Part3.Football
             // Could use DI framework if this were more complex.
 
             _loggingService = new LoggingService();
-            var seasonResultFactory = new SeasonResultFactory(_loggingService);
-            _seasonResultFileParser = new SeasonResultFileParser(seasonResultFactory, _loggingService);
+            var seasonGoalsResultFactory = new SeasonGoalsResultFactory(_loggingService);
+            _seasonGoalsResultFileParser = new SeasonResultFileParser("football.dat", seasonGoalsResultFactory, _loggingService);
         }
     }
 }

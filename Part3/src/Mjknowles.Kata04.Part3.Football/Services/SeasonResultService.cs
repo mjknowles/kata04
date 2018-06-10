@@ -6,10 +6,10 @@ using System.Text;
 
 namespace Mjknowles.Kata04.Part3.Football.Services
 {
-    public class SeasonResultService : IntDifferentiableService<ISeasonResult>, ISeasonResultService
+    public class SeasonResultService : IntDifferentiableService
     {
-        public SeasonResultService(string filePath, ISeasonResultFileParser fileParser, ILoggingService loggingService) 
-            : base(filePath, fileParser, loggingService)
+        public SeasonResultService(IDifferentiableProvider<int> resultProvider, ILoggingService loggingService) 
+            : base(resultProvider, loggingService)
         {
         }
     }

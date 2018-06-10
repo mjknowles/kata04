@@ -6,15 +6,15 @@ using System.Text;
 namespace Mjknowles.Kata04.Part3.Weather.Models
 {
     /// <summary>
-    /// Represents a record of a day's weather data
+    /// Represents a record of a day's temperature data
     /// </summary>
-    public class DailyWeather : IntDifferentiable, IDailyWeather
+    public class DailyTemperature : IntDifferentiable, IDailyTemperature
     {
-        public static DailyWeather EmptyDailyWeather = new DailyWeather();
+        public static DailyTemperature EmptyDailyWeather = new DailyTemperature();
 
         public int DayOfMonth { get; }
 
-        public DailyWeather(int dayOfMonth, int minTemp, int maxTemp) : base(minTemp, maxTemp)
+        public DailyTemperature(int dayOfMonth, int minTemp, int maxTemp) : base(minTemp, maxTemp)
         {
             if (dayOfMonth < 1 || dayOfMonth > 31) throw new ArgumentException("Day of month must be greater than 1 and less than 31");
             if (maxTemp < minTemp) throw new ArgumentException("Max temp must be lower than min temp.");
@@ -24,27 +24,27 @@ namespace Mjknowles.Kata04.Part3.Weather.Models
 
         // Private constructor used for empty object
 
-        private DailyWeather() : base(0, 0) { }
+        private DailyTemperature() : base(0,0) { }
 
         // Equality operations overridden for completeness. The intent is that
         // this application treats IntDifferentiable as a value object.
 
         public override bool Equals(Object obj)
         {
-            return obj is DailyWeather dailyWeather && this == dailyWeather;
+            return obj is DailyTemperature dailyWeather && this == dailyWeather;
         }
 
         public override int GetHashCode()
         {
-            return DayOfMonth.GetHashCode() ^ Difference.GetHashCode();
+            return DayOfMonth.GetHashCode() ^ AbsoluteDifference.GetHashCode();
         }
 
-        public static bool operator ==(DailyWeather x, DailyWeather y)
+        public static bool operator ==(DailyTemperature x, DailyTemperature y)
         {
-            return x.DayOfMonth == y.DayOfMonth && x.Difference == y.Difference;
+            return x.DayOfMonth == y.DayOfMonth && x.AbsoluteDifference == y.AbsoluteDifference;
         }
 
-        public static bool operator !=(DailyWeather x, DailyWeather y)
+        public static bool operator !=(DailyTemperature x, DailyTemperature y)
         {
             return !(x == y);
         }

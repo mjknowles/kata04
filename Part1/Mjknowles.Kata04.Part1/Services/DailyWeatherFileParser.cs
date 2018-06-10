@@ -11,13 +11,15 @@ namespace Mjknowles.Kata04.Part1.Services
     /// <summary>
     /// Encapsulates the logic needed to parse a weather data file for Kata04.
     /// </summary>
-    public class DailyWeatherFileParser : IDailyWeatherFileParser
+    public class DailyWeatherFileParser : IDailyWeatherProvider
     {
+        private readonly string _filePath;
         private readonly IDailyWeatherFactory _dailyWeatherFactory;
         private readonly ILoggingService _loggingService;
 
-        public DailyWeatherFileParser(IDailyWeatherFactory dailyWeatherFactory, ILoggingService loggingService)
+        public DailyWeatherFileParser(string filePath, IDailyWeatherFactory dailyWeatherFactory, ILoggingService loggingService)
         {
+            _filePath = filePath;
             _dailyWeatherFactory = dailyWeatherFactory;
             _loggingService = loggingService;
         }
@@ -27,13 +29,13 @@ namespace Mjknowles.Kata04.Part1.Services
         /// </summary>
         /// <param name="filePath">Path of the data file containing daily weather records.</param>
         /// <returns>A collection of DailyWeather objects that were present in the input file.</returns>
-        public async Task<IEnumerable<IDailyWeather>> ParseDailyWeathers(string filePath)
+        public async Task<IEnumerable<IDailyWeather>> GetDailyWeathers()
         {
             var dailyWeathers = new List<IDailyWeather>();
 
             try
             {
-                using (var sr = new StreamReader(filePath))
+                using (var sr = new StreamReader(_filePath))
                 {
                     string line;
                     IDailyWeather parsedDailyWeather;

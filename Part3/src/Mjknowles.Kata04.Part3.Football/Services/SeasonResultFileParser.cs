@@ -1,4 +1,5 @@
-﻿using Mjknowles.Kata04.Part3.Common.Services;
+﻿using Mjknowles.Kata04.Part3.Common.Models;
+using Mjknowles.Kata04.Part3.Common.Services;
 using Mjknowles.Kata04.Part3.Football.Models;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,15 @@ namespace Mjknowles.Kata04.Part3.Football.Services
     /// <summary>
     /// Encapsulates the logic needed to parse a season result data file for Kata04.
     /// </summary>
-    public class SeasonResultFileParser : ISeasonResultFileParser
+    public class SeasonResultFileParser : IDifferentiableProvider<int>
     {
-        private readonly ISeasonResultFactory _seasonResultFactory;
+        private readonly IDifferentiableFactory<int> _seasonResultFactory;
         private readonly ILoggingService _loggingService;
+        private readonly string _filePath;
 
-        public SeasonResultFileParser(ISeasonResultFactory seasonResultFactory, ILoggingService loggingService)
+        public SeasonResultFileParser(string filePath, IDifferentiableFactory<int> seasonResultFactory, ILoggingService loggingService)
         {
+            _filePath = filePath;
             _seasonResultFactory = seasonResultFactory;
             _loggingService = loggingService;
         }
@@ -28,16 +31,16 @@ namespace Mjknowles.Kata04.Part3.Football.Services
         /// </summary>
         /// <param name="filePath">Path of the data file containing season result records.</param>
         /// <returns>A collection of SeasonResult objects that were present in the input file.</returns>
-        public async Task<IEnumerable<ISeasonResult>> ParseFile(string filePath)
+        public async Task<IEnumerable<IDifferentiable<int>>> GetDifferentiables()
         {
-            var seasonResults = new List<ISeasonResult>();
+            var seasonResults = new List<IDifferentiable<int>>();
 
             try
             {
-                using (var sr = new StreamReader(filePath))
+                using (var sr = new StreamReader(_filePath))
                 {
                     string line;
-                    ISeasonResult parsedSeasonResult = null;
+                    IDifferentiable<int> parsedSeasonResult = null;
 
                     // Ignore header row.
                     // This implementation assumes the application code will have
@@ -60,7 +63,7 @@ namespace Mjknowles.Kata04.Part3.Football.Services
                         // we need.
 
                         if (resultValues.Length > 8 && _seasonResultFactory.TryCreate(resultValues[1],
-                            resultValues[6], resultValues[8], SeasonResult.EmptySeasonResult, out parsedSeasonResult))
+                            resultValues[6], resultValues[8], SeasonGoalsResult.EmptySeasonResult, out parsedSeasonResult))
                         {
                             seasonResults.Add(parsedSeasonResult);
                         }

@@ -11,7 +11,7 @@ namespace Mjknowles.Kata04.Part1.Tests.Services
     public class DailyWeatherServiceTests
     {
         public readonly Mock<ILoggingService> _mockLoggingService;
-        public readonly Mock<IDailyWeatherFileParser> _mockFileParser;
+        public readonly Mock<IDailyWeatherProvider> _mockFileParser;
         private readonly List<IDailyWeather> _weatherData;
 
         public DailyWeatherServiceTests()
@@ -21,8 +21,8 @@ namespace Mjknowles.Kata04.Part1.Tests.Services
             _mockLoggingService = new Mock<ILoggingService>();
             _mockLoggingService.Setup(m => m.Log(It.IsAny<string>(), It.IsAny<Exception>()));
 
-            _mockFileParser = new Mock<IDailyWeatherFileParser>();
-            _mockFileParser.Setup(m => m.ParseDailyWeathers(It.IsAny<string>())).Returns(Task.FromResult((IEnumerable<IDailyWeather>)_weatherData));
+            _mockFileParser = new Mock<IDailyWeatherProvider>();
+            _mockFileParser.Setup(m => m.GetDailyWeathers()).Returns(Task.FromResult((IEnumerable<IDailyWeather>)_weatherData));
         }
 
         [Fact]
@@ -34,8 +34,7 @@ namespace Mjknowles.Kata04.Part1.Tests.Services
 
             _weatherData.AddRange(new DailyWeather[] { weather1, weather2, weather3 });
 
-            var sut = new DailyWeatherService(string.Empty,
-                _mockFileParser.Object, _mockLoggingService.Object);
+            var sut = new DailyWeatherService(_mockFileParser.Object, _mockLoggingService.Object);
 
             var result = await sut.GetWeatherWithSmallestTempSpread();
 
@@ -49,8 +48,7 @@ namespace Mjknowles.Kata04.Part1.Tests.Services
 
             _weatherData.Add(weather1);
 
-            var sut = new DailyWeatherService(string.Empty,
-                _mockFileParser.Object, _mockLoggingService.Object);
+            var sut = new DailyWeatherService(_mockFileParser.Object, _mockLoggingService.Object);
 
             var result = await sut.GetWeatherWithSmallestTempSpread();
 
@@ -61,8 +59,7 @@ namespace Mjknowles.Kata04.Part1.Tests.Services
         public async Task UnableToFindMinimumTempSpreadWhenNoDays()
         {
 
-            var sut = new DailyWeatherService(string.Empty,
-                _mockFileParser.Object, _mockLoggingService.Object);
+            var sut = new DailyWeatherService(_mockFileParser.Object, _mockLoggingService.Object);
 
             var result = await sut.GetWeatherWithSmallestTempSpread();
 
