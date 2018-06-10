@@ -40,7 +40,7 @@ namespace Mjknowles.Kata04.Part1.Services
             // list if two or more days have the same minimum spread.
 
             return _dailyWeathers.Any() ? _dailyWeathers.Aggregate((w1, w2) =>
-                w1.MaxTemp - w1.MinTemp < w2.MaxTemp - w2.MinTemp ? w1 : w2) : DailyWeather.EmptyDailyWeather;
+                Math.Abs(w1.MaxTemp - w1.MinTemp) < Math.Abs(w2.MaxTemp - w2.MinTemp) ? w1 : w2) : DailyWeather.EmptyDailyWeather;
         }
 
         private async Task GetDailyWeathers()
